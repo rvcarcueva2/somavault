@@ -68,7 +68,7 @@ export function SectionCards() {
                          <CardDescription>Inquiries</CardDescription>
                     </div>
 
-                    <CardTitle className="text-2xl font-semibold tabular-nums">
+                    <CardTitle className="text-3xl font-semibold tabular-nums">
                         356
                     </CardTitle>
                     <CardAction>
