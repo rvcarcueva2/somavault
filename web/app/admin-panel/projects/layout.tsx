@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import AdminPanelSidebar from "@/app/components/AdminPanelSidebar";
 
 export const metadata: Metadata = {
-  title: "Dashboard | Somavault",
+  title: "Projects | Somavault",
   description:
-    "Featured Works",
+    "Projects",
 };
 
 export default function SidebarLayout({

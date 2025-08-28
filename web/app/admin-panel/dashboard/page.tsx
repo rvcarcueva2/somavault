@@ -8,7 +8,7 @@ export default function DashboardPage() {
         <div className="ml-64 p-6 font-geist">
             <h1 className="text-2xl font-bold text-black mb-2">Hello, Admin!</h1>
 
-            <main className="p-8">
+            <main className="mt-6">
                 <div className="mb-8 text-black flex ">
                     <div className="max-w-sm w-full">
                         <SectionCards />

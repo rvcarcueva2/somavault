@@ -5,7 +5,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faPalette, faStar } from '@fortawesome/free-solid-svg-icons';
+import { config } from "@fortawesome/fontawesome-svg-core";
+
+
+config.autoAddCss = false; 
 
 
 const AdminPanelSidebar = () => {
@@ -27,6 +31,16 @@ const AdminPanelSidebar = () => {
             href: '/admin-panel/dashboard',
             icon: faHome,
         },
+        {
+            label: 'Featured Works',
+            href: '/admin-panel/featured-works',
+            icon: faStar,
+        },
+        {
+            label: 'Projects',
+            href: '/admin-panel/projects',
+            icon: faPalette,
+        },
 
     ];
 
@@ -34,7 +48,7 @@ const AdminPanelSidebar = () => {
         <aside className="fixed top-0 left-0 z-50 h-screen w-64 font-geist flex flex-col justify-between border-r bg-white border-gray-300">
 
             {/* Logo */}
-            <div className="p-6 border-b flex justify-center border-gray-300">
+            <div className="p-6 border-b flex justify-center border-gray-300 ">
                 <Link href="/" className="transition-all duration-300 hover:opacity-80">
                     <Image
                         src="/public/logo.png"
@@ -55,10 +69,10 @@ const AdminPanelSidebar = () => {
                     return (
                         <Link href={item.href} key={item.label} className="block">
                             <div
-                                className={`flex items-center gap-3 py-2.5 px-4 transition-all cursor-pointer
+                                className={`flex items-center gap-3 py-2.5 px-4 mb-2 transition-all cursor-pointer
                                     ${isActive
                                         ? 'bg-[#C52233] text-white font-regular rounded-md mx-4'
-                                        : 'text-black hover:bg-gray-100 mx-4'
+                                        : 'text-black hover:bg-gray-100 mx-4 rounded-md'
                                     }`}
                             >
                                 <FontAwesomeIcon icon={item.icon} className="w-4 h-4" />
