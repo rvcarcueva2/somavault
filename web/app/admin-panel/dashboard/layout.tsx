@@ -4,7 +4,7 @@ import AdminPanelSidebar from "@/app/components/AdminPanelSidebar";
 export const metadata: Metadata = {
   title: "Dashboard | Somavault",
   description:
-    "Featured Works",
+    "Manage and view inquiries",
 };
 
 export default function SidebarLayout({

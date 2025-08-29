@@ -5,9 +5,9 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faCircle, faInfoCircle, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faCircle, faInfoCircle, faSearch, faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-type FeaturedWork = {
+type Projects = {
     id: string;
     type: 'Animation' | 'Film';
     dateSubmitted: string;
@@ -17,7 +17,7 @@ type FeaturedWork = {
 };
 
 type Column = {
-    key: keyof FeaturedWork;
+    key: keyof Projects;
     label: string;
     minWidth?: string;
 };
@@ -32,7 +32,7 @@ const columns: Column[] = [
 ];
 
 // Static data for featured works
-const staticFeaturedWorks: FeaturedWork[] = [
+const staticProjectss: Projects[] = [
     {
         id: 'FW001',
         type: 'Animation',
@@ -108,10 +108,10 @@ const staticFeaturedWorks: FeaturedWork[] = [
 
 ];
 
-export default function FeaturedWorksPage() {
-    const [data, setData] = useState<FeaturedWork[]>(staticFeaturedWorks);
+export default function ProjectssPage() {
+    const [data, setData] = useState<Projects[]>(staticProjectss);
     const [searchTerm, setSearchTerm] = useState('');
-    const [sortColumn, setSortColumn] = useState<keyof FeaturedWork | null>(null);
+    const [sortColumn, setSortColumn] = useState<keyof Projects | null>(null);
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
     const [loading, setLoading] = useState(false);
     const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
@@ -165,7 +165,7 @@ export default function FeaturedWorksPage() {
         }
     }, [successMessage]);
 
-    const handleSort = (column: keyof FeaturedWork) => {
+    const handleSort = (column: keyof Projects) => {
         if (sortColumn === column) {
             setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'));
         } else {
@@ -264,38 +264,38 @@ export default function FeaturedWorksPage() {
         });
     };
 
-    const renderCellContent = (item: FeaturedWork, columnKey: keyof FeaturedWork) => {
+    const renderCellContent = (item: Projects, columnKey: keyof Projects) => {
         {/* Render cell content based on column key */ }
         switch (columnKey) {
             case 'id':
                 return (
-                    <div className=" pl-5 flex items-center justify-between">
+                    <div className="flex items-center justify-center">
                         {item[columnKey]}
                     </div>
                 );
 
             case 'type':
                 return (
-                    <div className=" pl-6 flex items-center justify-between">
+                    <div className=" pl-5 flex items-center justify-start">
                         {item[columnKey]}
                     </div>
                 );
 
             case 'dateSubmitted':
                 return (
-                    <div className=" pl-9 flex items-center justify-between">
+                    <div className=" flex items-center justify-center">
                         {formatDate(item[columnKey] as string)}
                     </div>
                 );
             case 'dateModified':
                 return (
-                    <div className=" pl-9 flex items-center justify-between">
+                    <div className=" flex items-center justify-center">
                         {formatDate(item[columnKey] as string)}
                     </div>
                 );
             case 'status':
                 return (
-                    <div className=" pl-4 flex items-center justify-between w-[110px]">
+                    <div className=" pl-8 flex items-center justify-between w-[120px]">
                         <span
                             className={`px-2 py-1 text-xs rounded-full capitalize ${getStatusColor(item.status)}`}
                         >
@@ -378,9 +378,12 @@ export default function FeaturedWorksPage() {
                                             className={`p-3 pl-5 text-left text-gray-500 font-normal cursor-pointer ${column.minWidth} truncate`}
                                             onClick={() => handleSort(column.key)}
                                         >
-                                            <div className="flex items-center pl-5 gap-2">
+                                            <div className="flex justify-center gap-2">
                                                 {column.label}
-                                                <FontAwesomeIcon icon={faChevronDown} className="w-3 h-3" />
+                                                <div className="flex items-center">
+                                                    <FontAwesomeIcon icon={faChevronDown} className="w-3 h-3" />
+                                                </div>
+
                                             </div>
                                         </th>
                                     ))}
@@ -388,6 +391,7 @@ export default function FeaturedWorksPage() {
                                 </tr>
                             </thead>
                             <tbody>
+                                {/* Table rows */}
                                 {loading ? (
                                     <tr>
                                         <td colSpan={columns.length + 1} className="p-4 text-center text-gray-500">
@@ -401,6 +405,7 @@ export default function FeaturedWorksPage() {
                                         </td>
                                     </tr>
                                 ) : (
+
                                     filteredWorks.map((item, index) => (
                                         <tr
                                             key={index}
@@ -409,12 +414,22 @@ export default function FeaturedWorksPage() {
                                                 }`}
                                         >
                                             {columns.map((column) => (
-                                                <td key={column.key} className={`p-3 text-sm break-words text-black ${column.key === 'featured' ? 'text-center' : ''}`} onClick={column.key === 'status' ? (e) => e.stopPropagation() : undefined}>
+                                                <td key={column.key} className={`p-3 text-sm break-words text-black ${column.key === 'featured' ? 'justify-center' : ''}`} onClick={column.key === 'status' ? (e) => e.stopPropagation() : undefined}>
                                                     {renderCellContent(item, column.key)}
                                                 </td>
                                             ))}
-                                            <td className="p-3 text-center cursor-pointer" onClick={(e) => e.stopPropagation()}>
-                                                <FontAwesomeIcon icon={faInfoCircle} className="text-[#EAB044] w-4 h-4" />
+
+                                            <td className="p-3" onClick={(e) => e.stopPropagation()}>
+                                                <div className="flex items-center gap-4">
+                                                    <button className="cursor-pointer text-[#EAB044] hover:underline flex items-center gap-1">
+                                                        <FontAwesomeIcon icon={faPenToSquare} className="text-[#EAB044] w-4 h-4" />
+                                                        Edit
+                                                    </button>
+                                                    <button className="cursor-pointer text-red-500 hover:underline flex items-center gap-1">
+                                                        <FontAwesomeIcon icon={faTrash} className="text-red-500 w-4 h-4" />
+                                                        Delete
+                                                    </button>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))

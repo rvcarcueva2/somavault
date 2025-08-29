@@ -2,93 +2,73 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faCircle, faInfoCircle, faSearch } from '@fortawesome/free-solid-svg-icons';
 
-type FeaturedWork = {
-    title: string;
+type Inquiries = {
     id: string;
-    datePublished: string;
-    dateModified: string;
+    lastName: string;
+    firstName: string;
+    middleName: string;
+    email: string;
+    dateSubmitted: string;
 };
 
 type Column = {
-    key: keyof FeaturedWork;
+    key: keyof Inquiries;
     label: string;
     minWidth?: string;
 };
 
 const columns: Column[] = [
-    { key: 'title', label: 'Title', minWidth: 'min-w-[200px]' },
-    { key: 'id', label: 'Post ID', minWidth: 'min-w-[100px]' },
-    { key: 'datePublished', label: 'Date Published', minWidth: 'min-w-[150px]' },
-    { key: 'dateModified', label: 'Date Modified', minWidth: 'min-w-[150px]' },
+    { key: 'lastName', label: 'Last Name', minWidth: 'min-w-[200px]' },
+    { key: 'firstName', label: 'First Name', minWidth: 'min-w-[100px]' },
+    { key: 'middleName', label: 'Middle Name', minWidth: 'min-w-[150px]' },
+    { key: 'email', label: 'Email', minWidth: 'min-w-[150px]' },
+    { key: 'dateSubmitted', label: 'Date Submitted', minWidth: 'min-w-[150px]' },
 ];
 
-// Static data for featured works
-const staticFeaturedWorks: FeaturedWork[] = [
+const staticInquiries: Inquiries[] = [
     {
-        title: 'Beneath the Stars, We Learned How to Fall Apart Together ',
-        id: 'FW001',
-        datePublished: '2024-01-15',
-        dateModified: '2024-02-01',
+        id: 'I0001',
+        lastName: 'Grant',
+        firstName: 'John',
+        middleName: 'Aron',
+        email: 'johngrant@example.com',
+        dateSubmitted: '2024-01-15',
     },
     {
-        title: 'The Last Memory of Fire Before the World Went Silent',
-        id: 'FW002',
-        datePublished: '2024-02-15',
-        dateModified: '2024-03-01',
+        id: 'I0002',
+        lastName: 'Pingris',
+        firstName: 'Mark',
+        middleName: '',
+        email: 'markpingris@example.com',
+        dateSubmitted: '2024-01-15',
     },
-
-    {
-        title: 'When the Ocean Forgets Your Name, the Shore Still Remembers',
-        id: 'FW003',
-        datePublished: '2024-04-15',
-        dateModified: '2024-04-17',
+     {
+        id: 'I0002',
+        lastName: 'David',
+        firstName: 'James Albert',
+        middleName: '',
+        email: 'david@example.com',
+        dateSubmitted: '2024-01-15',
     },
-    {
-        title: 'In the Shadow of Machines, We Dreamed of Being Human Again',
-        id: 'FW004',
-        datePublished: '2024-05-15',
-        dateModified: '2024-05-17',
-    }
+    
 ];
 
-export default function FeaturedWorksPage() {
-    const [data, setData] = useState<FeaturedWork[]>(staticFeaturedWorks);
+
+export default function InquiriessPage() {
+    const [data, setData] = useState<Inquiries[]>(staticInquiries);
     const [searchTerm, setSearchTerm] = useState('');
-    const [sortColumn, setSortColumn] = useState<keyof FeaturedWork | null>(null);
+    const [sortColumn, setSortColumn] = useState<keyof Inquiries | null>(null);
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
     const [loading, setLoading] = useState(false);
-    const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
-    const [pendingStatusChange, setPendingStatusChange] = useState<{
-        id: string;
-        newStatus: string;
-    } | null>(null);
-    const [selectedStatus, setSelectedStatus] = useState('');
     const [isOpen, setIsOpen] = useState<string>('');
     const [dropdownPosition, setDropdownPosition] = useState<{ x: number; y: number; showAbove: boolean } | null>(null);
     const [successMessage, setSuccessMessage] = useState('');
     const router = useRouter();
-
-    const handleToggle = (id: string, event: React.MouseEvent<HTMLButtonElement>) => {
-        const button = event.currentTarget;
-        const rect = button.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-
-        // Check if there's enough space below (150px for dropdown height)
-        const spaceBelow = windowHeight - rect.bottom;
-        const showAbove = spaceBelow < 150;
-
-        setDropdownPosition({
-            x: rect.left - 120, // Position to the left of the button
-            y: showAbove ? rect.top - 140 : rect.bottom + 5, // Above or below based on space
-            showAbove
-        });
-
-        setIsOpen((prev) => (prev === id ? '' : id));
-    };
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -112,7 +92,7 @@ export default function FeaturedWorksPage() {
         }
     }, [successMessage]);
 
-    const handleSort = (column: keyof FeaturedWork) => {
+    const handleSort = (column: keyof Inquiries) => {
         if (sortColumn === column) {
             setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'));
         } else {
@@ -167,39 +147,55 @@ export default function FeaturedWorksPage() {
         });
     };
 
-    const renderCellContent = (item: FeaturedWork, columnKey: keyof FeaturedWork) => {
+    const renderCellContent = (item: Inquiries, columnKey: keyof Inquiries) => {
         {/* Render cell content based on column key */ }
         switch (columnKey) {
 
-            case 'title':
-                return (
-                    <div className=" pl-5 flex items-center justify-start">
-                        {item[columnKey]}
-                    </div>
-                );
-
-            case 'id':
+            case 'lastName':
                 return (
                     <div className="flex items-center justify-center">
                         {item[columnKey]}
                     </div>
                 );
 
-            case 'datePublished':
+            case 'firstName':
                 return (
-                    <div className="flex items-center justify-center">
-                        {formatDate(item[columnKey] as string)}
+                    <div className=" flex items-center justify-center">
+                        {item[columnKey]}
                     </div>
                 );
-            case 'dateModified':
+
+            case 'middleName':
                 return (
-                    <div className="flex items-center justify-center">
+                    <div className=" flex items-center justify-center">
+                        {item[columnKey]}
+                    </div>
+                );
+
+            case 'email':
+                return (
+                    <div className=" flex pl-18 justify-left justify-between">
+                        <a
+                          href={`mailto:${item[columnKey]}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[#d49a35] hover:underline truncate block"
+                        >
+                          {item[columnKey]}
+                        </a>
+                        
+                    </div>
+                );
+
+            case 'dateSubmitted':
+                return (
+                    <div className=" flex items-center justify-center">
                         {formatDate(item[columnKey] as string)}
                     </div>
                 );
 
             default:
-                return item[columnKey];
+                return null;
         }
     };
 
@@ -247,15 +243,14 @@ export default function FeaturedWorksPage() {
                                             className={`p-3 pl-5 text-left text-gray-500 font-normal cursor-pointer ${column.minWidth} truncate`}
                                             onClick={() => handleSort(column.key)}
                                         >
-                                            <div
-                                                className={`flex gap-2 ${column.label === "Title" ? "justify-start pl-2" : "justify-center"
-                                                    }`}
-                                            >
+                                            <div className="flex justify-center gap-2">
                                                 {column.label}
                                                 <div className="flex items-center">
-                                                    <FontAwesomeIcon icon={faChevronDown} className="w-3 h-3" />
+                                                  <FontAwesomeIcon icon={faChevronDown} className="w-3 h-3" />  
                                                 </div>
+                                                
                                             </div>
+                                           
                                         </th>
                                     ))}
                                     <th className="p-3 w-[90px]"></th>

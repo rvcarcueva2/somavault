@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faCircle, faInfoCircle, faSearch } from '@fortawesome/free-solid-svg-icons';
 
-type FeaturedWork = {
+type Event = {
     title: string;
     id: string;
     datePublished: string;
@@ -14,51 +14,50 @@ type FeaturedWork = {
 };
 
 type Column = {
-    key: keyof FeaturedWork;
+    key: keyof Event;
     label: string;
     minWidth?: string;
 };
 
 const columns: Column[] = [
     { key: 'title', label: 'Title', minWidth: 'min-w-[200px]' },
-    { key: 'id', label: 'Post ID', minWidth: 'min-w-[100px]' },
     { key: 'datePublished', label: 'Date Published', minWidth: 'min-w-[150px]' },
     { key: 'dateModified', label: 'Date Modified', minWidth: 'min-w-[150px]' },
 ];
 
 // Static data for featured works
-const staticFeaturedWorks: FeaturedWork[] = [
+const staticEvents: Event[] = [
     {
-        title: 'Beneath the Stars, We Learned How to Fall Apart Together ',
-        id: 'FW001',
+        title: 'Golden Hour Gathering ',
+        id: 'E001',
         datePublished: '2024-01-15',
         dateModified: '2024-02-01',
     },
     {
-        title: 'The Last Memory of Fire Before the World Went Silent',
-        id: 'FW002',
+        title: 'Echoes of Tomorrow: A Music & Arts Festival',
+        id: 'E002',
         datePublished: '2024-02-15',
         dateModified: '2024-03-01',
     },
 
     {
-        title: 'When the Ocean Forgets Your Name, the Shore Still Remembers',
-        id: 'FW003',
+        title: 'Frames in Motion: Independent Film Nights',
+        id: 'E003',
         datePublished: '2024-04-15',
         dateModified: '2024-04-17',
     },
     {
-        title: 'In the Shadow of Machines, We Dreamed of Being Human Again',
-        id: 'FW004',
+        title: 'The Storytellers’ Stage',
+        id: 'E004',
         datePublished: '2024-05-15',
         dateModified: '2024-05-17',
     }
 ];
 
-export default function FeaturedWorksPage() {
-    const [data, setData] = useState<FeaturedWork[]>(staticFeaturedWorks);
+export default function EventsPage() {
+    const [data, setData] = useState<Event[]>(staticEvents);
     const [searchTerm, setSearchTerm] = useState('');
-    const [sortColumn, setSortColumn] = useState<keyof FeaturedWork | null>(null);
+    const [sortColumn, setSortColumn] = useState<keyof Event | null>(null);
     const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
     const [loading, setLoading] = useState(false);
     const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
@@ -112,7 +111,7 @@ export default function FeaturedWorksPage() {
         }
     }, [successMessage]);
 
-    const handleSort = (column: keyof FeaturedWork) => {
+    const handleSort = (column: keyof Event) => {
         if (sortColumn === column) {
             setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'));
         } else {
@@ -167,7 +166,7 @@ export default function FeaturedWorksPage() {
         });
     };
 
-    const renderCellContent = (item: FeaturedWork, columnKey: keyof FeaturedWork) => {
+    const renderCellContent = (item: Event, columnKey: keyof Event) => {
         {/* Render cell content based on column key */ }
         switch (columnKey) {
 
@@ -208,7 +207,7 @@ export default function FeaturedWorksPage() {
             {/* Page Header */}
             <div className="mt-4 mb-4">
                 <div className="flex justify-between items-center">
-                    <h1 className="text-2xl font-bold text-gray-800">Featured Works</h1>
+                    <h1 className="text-2xl font-bold text-gray-800">Events</h1>
                 </div>
             </div>
 

@@ -5,11 +5,11 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faPalette, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faPalette, faStar, faCircleQuestion, faCalendarDays, faUser } from '@fortawesome/free-solid-svg-icons';
 import { config } from "@fortawesome/fontawesome-svg-core";
 
 
-config.autoAddCss = false; 
+config.autoAddCss = false;
 
 
 const AdminPanelSidebar = () => {
@@ -41,6 +41,23 @@ const AdminPanelSidebar = () => {
             href: '/admin-panel/projects',
             icon: faPalette,
         },
+        {
+            label: 'Inquiries',
+            href: '/admin-panel/inquiries',
+            icon: faCircleQuestion,
+        },
+        {
+            label: 'Events',
+            href: '/admin-panel/events',
+            icon: faCalendarDays,
+        },
+        {
+            label: 'Users',
+            href: '/admin-panel/users',
+            icon: faUser,
+        },
+
+
 
     ];
 
@@ -51,10 +68,10 @@ const AdminPanelSidebar = () => {
             <div className="p-6 border-b flex justify-center border-gray-300 ">
                 <Link href="/" className="transition-all duration-300 hover:opacity-80">
                     <Image
-                        src="/public/logo.png"
+                        src="/logo/logo-mark.svg"
                         alt="Somavault"
-                        width={100}
-                        height={100}
+                        width={70}
+                        height={70}
                         className="transition-all duration-300 cursor-pointer"
                     />
                 </Link>
