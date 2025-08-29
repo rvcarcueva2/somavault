@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -125,6 +125,9 @@ export default function ProjectssPage() {
     const [successMessage, setSuccessMessage] = useState('');
     const router = useRouter();
 
+    // Create a ref for the dropdown to handle positioning
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
     const handleToggle = (id: string, event: React.MouseEvent<HTMLButtonElement>) => {
         const button = event.currentTarget;
         const rect = button.getBoundingClientRect();
@@ -142,6 +145,14 @@ export default function ProjectssPage() {
 
         setIsOpen((prev) => (prev === id ? '' : id));
     };
+
+    // Update dropdown position using useEffect
+    useEffect(() => {
+        if (dropdownRef.current && dropdownPosition) {
+            dropdownRef.current.style.setProperty('--dropdown-x', `${dropdownPosition.x}px`);
+            dropdownRef.current.style.setProperty('--dropdown-y', `${dropdownPosition.y}px`);
+        }
+    }, [dropdownPosition]);
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -330,6 +341,14 @@ export default function ProjectssPage() {
 
     return (
         <div className="font-geist p-6 ml-64">
+            {/* CSS Variables for dropdown positioning */}
+            <style jsx>{`
+                .dropdown-positioned {
+                    left: var(--dropdown-x, 0px);
+                    top: var(--dropdown-y, 0px);
+                }
+            `}</style>
+            
             {/* Page Header */}
             <div className="mt-4 mb-4">
                 <div className="flex justify-between items-center">
@@ -443,11 +462,8 @@ export default function ProjectssPage() {
             {/* Status Dropdown */}
             {isOpen && dropdownPosition && (
                 <div
-                    className="fixed z-50 bg-white border border-gray-300 rounded shadow-lg w-36 overflow-hidden"
-                    style={{
-                        top: dropdownPosition.y,
-                        left: dropdownPosition.x,
-                    }}
+                    ref={dropdownRef}
+                    className="fixed z-50 bg-white border border-gray-300 rounded shadow-lg w-36 overflow-hidden dropdown-positioned"
                     onClick={(e) => e.stopPropagation()}
                 >
                     {['Pending', 'Approved', 'Denied', 'Closed'].map((statusOption) => {
